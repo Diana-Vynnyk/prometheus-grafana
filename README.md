@@ -1,6 +1,17 @@
 # Prometheus & Grafana
 Prometheus, Grafana, node exporter, blackbox exporter, AlertManager
 
+## **Screenshots with results:**
+[General Link for all screenshots](https://drive.google.com/drive/folders/1e2AkXvd-4iwUtoNxgu3zpfMxiP6bqLtd?usp=sharing)
+
+[Prometheus](https://drive.google.com/drive/folders/1cH6CFngSyA_rsPBh2zcIkqysS2j8LF6x?usp=sharing)
+
+[Imported Dashboards in Grafana](https://drive.google.com/drive/folders/1rAAJOuzYCwC0UiLtnFemHAvXx1O1AGTB?usp=sharing)
+
+[Manual Created Dashboard in Grafana](https://drive.google.com/drive/folders/1UXxKBEHfWTj96A_YhHmilguzG7OMSyZp?usp=sharing)
+
+[AlertManager](https://drive.google.com/drive/folders/1UC7iy8O3cjVvo4FOyvxrGULN9Lk-V-CL?usp=sharing)
+
 # Prometheus
 
 **Prometheus** is a time series database, created in 2012 and part of the Cloud Native Computing Foundation, that exposes dozens of exporters for you to monitor anything.
