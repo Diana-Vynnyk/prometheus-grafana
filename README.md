@@ -1,27 +1,171 @@
 # Prometheus & Grafana
 Prometheus, Grafana, node exporter, blackbox exporter, AlertManager
 
+# Prometheus
+
+**Prometheus** is a time series database, created in 2012 and part of the Cloud Native Computing Foundation, that exposes dozens of exporters for you to monitor anything.
+
+On the other hand, Grafana is probably one of the most popular monitoring tools. In Grafana, you create dashboards that bind to datasources (such as Prometheus) in order to visualize your metrics in near real-time.
+
+Grafana & Prometheus natively bind together.
+
+- prometheus.yml: the configuration file for Prometheus. This is the file that you are going to modify in order to tweak your Prometheus server, for example to change the scraping interval or to configure custom alerts;
+- prometheus: the binary for your Prometheus server. This is the command that you are going to execute to launch a Prometheus instance on your Linux box;
+- promtool: this is a command that you can run to verify your Prometheus configuration.
+
+We are not going to execute directly the Prometheus, instead we are going to configure it as a service.
+
+It will bring more robustness and reliability in case our Prometheus server were to stop suddenly.
+
+```bash
+sudo nano /usr/local/bin/prometheus/promtool
+
+sudo nano /etc/prometheus
+```
+
+Folder in the `/etc` folder for Prometheus and the console files, console libraries and the prometheus configuration file.
+
+A data folder at the root directory, with a prometheus folder inside `data/prometheus`
+
+Set to create a Prometheus service.
+```bash
+sudo nano /lib/systemd/system/prometheus.service
+
+
+[Unit]
+Description=Prometheus
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=prometheus
+Group=prometheus
+ExecStart=/usr/local/bin/prometheus \
+  --config.file=/etc/prometheus/prometheus.yml \
+  --storage.tsdb.path="/data/prometheus" \
+  --web.console.templates=/etc/prometheus/consoles \
+  --web.console.libraries=/etc/prometheus/console_libraries \
+  --web.listen-address=0.0.0.0:9090 \
+  --web.enable-admin-api
+
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```
+In order to see the different launch options for Prometheus, you can run the prometheus command with a h flag.
+```bash
+prometheus -h
+```
+
+```bash
+sudo systemctl enable prometheus
+sudo systemctl start prometheus
+```
+
+Prometheus server should be running at http://localhost:9090.
+
+By default, Prometheus should start monitoring itself.
+
+Status -> Targets in top bar menu, to verify that you have one target : the Prometheus server itself.
+
+```bash
+```
+```bash
+```
+```bash
+```
+![AlertManager]( "AlertManager")
+
+![AlertManager]( "AlertManager")
+
+![AlertManager]( "AlertManager")
+
+![AlertManager]( "AlertManager")
+
+![AlertManager]( "AlertManager")
+
+![AlertManager]( "AlertManager")
+
 # Grafana 
 
+**Grafana** is by far one of the most popular open source dashboard monitoring tools. 
+
+It can be used to monitor a wide variety of different datasources : SQL databases (MySQL or PostgreSQL), NoSQL databases and time series databases (such as InfluxDB or TimescaleDB)
+
+Used by SpaceX, Bloomberg and Booking.com, Grafana is definitely a must-have for engineers wanting a robust and scalable dashboard monitoring solution.
+
 ```bash
+sudo wget -q -O - https://packages.grafana.com/gpg.key | apt-key add -
+sudo apt-key list
+
+pub   rsa2048 2017-01-24 [SC]
+      4E40 DDF6 D76E 284A 4A67  80E4 8C8C 34C5 2409 8CB6
+uid           [unknown] Grafana <info@grafana.com>
+sub   rsa2048 2017-01-24 [E]
+
+
+sudo apt-get install grafana
 ```
 ```bash
+sudo nano /usr/lib/systemd/system/grafana-server.service
 ```
+This file is quite important because it gives you much more information about your Grafana instance.
+
+
+- The Grafana server binary is located at /usr/sbin/grafana-server.
+- The file that defines all the environment variables is located at /etc/default/grafana-server
+- The configuration file is given via the CONF_FILE environment variable.
+- The PID of the file is also determined by the PID_FILE_DIR environment variable.
+- Logging, data, plugins and provisioning paths are given by environment variables.
+
+Content of the environment variable file:
 ```bash
+GRAFANA_USER=grafana
+
+GRAFANA_GROUP=grafana
+
+GRAFANA_HOME=/usr/share/grafana
+
+LOG_DIR=/var/log/grafana
+
+DATA_DIR=/var/lib/grafana
+
+MAX_OPEN_FILES=10000
+
+CONF_DIR=/etc/grafana
+
+CONF_FILE=/etc/grafana/grafana.ini
+
+RESTART_ON_UPGRADE=true
+
+PLUGINS_DIR=/var/lib/grafana/plugins
+
+PROVISIONING_CFG_DIR=/etc/grafana/provisioning
+
+# Only used on systemd systems
+PID_FILE_DIR=/var/run/grafana
 ```
+Now that all variables are declared, and that you configured your paths relatively to the way you organize data on your instance, you can launch your service.
+
 ```bash
+sudo systemctl start grafana-server
+sudo systemctl status grafana-server
 ```
-![AlertManager]( "AlertManager")
 
-![AlertManager]( "AlertManager")
+### Grafana Web UI.
 
-![AlertManager]( "AlertManager")
+http://localhost:3000.
 
-![AlertManager]( "AlertManager")
+As a reminder, here are all the defaults for Grafana:
 
-![AlertManager]( "AlertManager")
+The default port for Grafana is 3000.
 
-![AlertManager]( "AlertManager")
+The default login for Grafana is ‘admin’ and the default password is also ‘admin’.
+
+When setting those credentials, you will be asked to change your password.
+
 
 # Blackbox Exporter
 
@@ -406,6 +550,8 @@ sudo systemctl restart alertmanager
 
 # 
 # Sources
+
+[How to Setup Grafana and Prometheus on Linux](https://devconnected.com/how-to-setup-grafana-and-prometheus-on-linux/)
 
 [How To Install Grafana on Ubuntu](https://devconnected.com/how-to-install-grafana-on-ubuntu-18-04/)
 
