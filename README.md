@@ -81,23 +81,7 @@ By default, Prometheus should start monitoring itself.
 
 Status -> Targets in top bar menu, to verify that you have one target : the Prometheus server itself.
 
-```bash
-```
-```bash
-```
-```bash
-```
-![AlertManager]( "AlertManager")
 
-![AlertManager]( "AlertManager")
-
-![AlertManager]( "AlertManager")
-
-![AlertManager]( "AlertManager")
-
-![AlertManager]( "AlertManager")
-
-![AlertManager]( "AlertManager")
 
 # Grafana 
 
